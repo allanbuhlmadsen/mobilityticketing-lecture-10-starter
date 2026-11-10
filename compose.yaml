@@ -1,0 +1,39 @@
+name: mobility-lecture10
+
+x-node: &node
+  image: mongo:8.0
+  command: [mongod, --replSet, rs0, --bind_ip_all]
+  networks: [lab]
+  healthcheck:
+    test: [CMD, mongosh, --quiet, --eval, "quit(db.adminCommand({ping: 1}).ok ? 0 : 1)"]
+    interval: 2s
+    timeout: 5s
+    retries: 30
+    start_period: 10s
+
+services:
+  mongo1:
+    <<: *node
+    volumes: [mongo1-data:/data/db]
+  mongo2:
+    <<: *node
+    volumes: [mongo2-data:/data/db]
+  mongo3:
+    <<: *node
+    volumes: [mongo3-data:/data/db]
+  client:
+    image: mongo:8.0
+    entrypoint: [bash, -c]
+    command: ["trap 'exit 0' TERM INT; while :; do sleep 3600 & wait $$!; done"]
+    volumes: [.:/lab:ro]
+    working_dir: /lab
+    networks: [lab]
+
+networks:
+  lab:
+    internal: true
+
+volumes:
+  mongo1-data:
+  mongo2-data:
+  mongo3-data:
