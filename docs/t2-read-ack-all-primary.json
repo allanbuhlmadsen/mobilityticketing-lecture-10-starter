@@ -1,0 +1,1 @@
+{"action":"read","operationId":"ACK-ALL","startedAt":"2026-11-11T11:20:26.011Z","readPreference":"primary","readConcern":"local","writeConcern":null,"retryWrites":false,"retryReads":false,"actual":{"_id":"ACK-ALL","tripId":"T102","status":"Cancelled","sourceVersion":2},"outcome":"Present","finishedAt":"2026-11-11T11:20:26.146Z","durationMs":135}
